@@ -45,6 +45,7 @@ class FacebookAlbumImage(db.Model):
     updated_at = db.Column(db.DateTime)
     facebook_photo_id = db.Column(db.BigInteger, nullable=False)
     is_downloaded = db.Column(db.Boolean, nullable=False, default=False)
+    course_id = db.Column(db.Integer, nullable=False, default=0)
 
 # エラーハンドリングの例
 @app.errorhandler(SQLAlchemyError)
@@ -94,17 +95,30 @@ def get_album_images(album_id):
         # ページネーションパラメータ
         page = request.args.get('page', 1, type=int)
         per_page = request.args.get('per_page', 400, type=int)
-        pagination = (FacebookAlbumImage.query
-            .filter_by(album_id=album_id)
+        course_id = request.args.get('course_id', type=int)
+
+        query = FacebookAlbumImage.query.filter_by(album_id=album_id)
+
+        # course_id が指定されている場合にのみフィルター
+        # 0 の場合は「全コースを表示」とみなす
+        # 999 の場合は「未分類のみ」を表示
+        if course_id == 999:
+            query = query.filter_by(course_id=999)
+        elif course_id is not None and course_id != 0:
+            query = query.filter_by(course_id=course_id)
+
+        # ここで 'query' に対してページネーションを適用
+        pagination = (query
             .order_by(FacebookAlbumImage.id.asc())
             .paginate(page=page, per_page=per_page, error_out=False)
-
         )
+
         images = [{
             'id': image.id,
             'image_url': image.image_url,
             'local_file_path': image.local_file_path,
-            'is_downloaded': image.is_downloaded
+            'is_downloaded': image.is_downloaded,
+            'course_id': image.course_id
         } for image in pagination.items]
         return jsonify({
             'images': images,

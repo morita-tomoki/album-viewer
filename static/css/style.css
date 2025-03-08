@@ -16,7 +16,8 @@
 
 #modal-content img {
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: 80vh;
+  margin: 0 auto;   /* 中央揃えを維持しつつ上下余白は0に */
 }
 
 .modal-arrow {
@@ -47,4 +48,11 @@
   background-color: #dddddd; /* グレーのハイライト色 */
   color: rgb(0, 0, 0);
   font-weight: medium;
+}
+
+.modal-arrow.disabled {
+  color: #999;             /* グレーで表示 */
+  cursor: default;         /* カーソルを標準に戻す */
+  pointer-events: none;    /* クリック不可にする */
+  opacity: 0.4;            /* 透明度を下げる */
 }
