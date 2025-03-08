@@ -1,0 +1,50 @@
+/* static/css/style.css */
+
+/* モーダル用スタイル */
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#modal-content img {
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.modal-arrow {
+  position: absolute;
+  top: 50%;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transform: translateY(-50%);
+  padding: 0 20px;
+}
+
+#prev-arrow { left: 0; }
+#next-arrow { right: 0; }
+
+#modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* 選択中アルバムのハイライト表示用スタイル */
+#album-list li.active {
+  background-color: #dddddd; /* グレーのハイライト色 */
+  color: rgb(0, 0, 0);
+  font-weight: medium;
+}
